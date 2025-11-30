@@ -189,11 +189,15 @@ UpdateMusic:
 		jsr	CycleSoundQueue(pc)
 ; loc_71BBC:
 .nosndinput:
+if ~~MoreSounds
 		cmpi.b	#$80,SMPS_RAM.v_sound_id(a6)	; is song queue set for silence (empty)?
 		beq.s	.nonewsound			; If yes, branch
 		jsr	PlaySoundID(pc)
 ; loc_71BC8:
 .nonewsound:
+else
+; Removed to expand the music index.
+endif
 		lea	SMPS_RAM.v_music_dac_track(a6),a5
 		tst.b	SMPS_Track.PlaybackControl(a5)	; Is DAC track playing?
 		bpl.s	.dacdone			; Branch if not
@@ -667,6 +671,7 @@ CycleSoundQueue:
 		clr.b	(a1)+				; Clear entry
 		subi.b	#bgm__First,d0			; Make it into 0-based index
 		bcs.s	.nextinput			; If negative (i.e., it was $80 or lower), branch
+	if ~~MoreSounds
 		cmpi.b	#$80,SMPS_RAM.v_sound_id(a6)	; Is v_sound_id a $80 (silence/empty)?
 		beq.s	.havesound			; If yes, branch
 		move.b	d1,SMPS_RAM.v_soundqueue0(a6)	; Put sound into v_soundqueue0
@@ -674,6 +679,10 @@ CycleSoundQueue:
 ; ===========================================================================
 ; loc_71F2C:
 .havesound:
+	else
+; Removed.
+		bra.s	PlaySoundID
+	endif
 		andi.w	#$7F,d0				; Clear high byte and sign bit
 		move.b	(a0,d0.w),d2			; Get sound type
 		cmp.b	d3,d2				; Is it a lower priority sound?
@@ -699,8 +708,12 @@ CycleSoundQueue:
 PlaySoundID:
 		moveq	#0,d7
 		move.b	SMPS_RAM.v_sound_id(a6),d7
+	if ~~MoreSounds
 		beq.w	StopAllSound
 		bpl.s	.locret				; If >= 0, return (not a valid sound, bgm or command)
+	else
+		; Removed.
+	endif
 		move.b	#$80,SMPS_RAM.v_sound_id(a6)	; reset music flag
 	if FixBugs
 		cmpi.b	#bgm__Last,d7		; Is this music ($81-$93)?
