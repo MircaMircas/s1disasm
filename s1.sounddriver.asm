@@ -260,7 +260,20 @@ UpdateMusic:
 ; loc_71C44:
 DoStartZ80:
 		startZ80
+	if FixBugs
+     	btst #6,(v_megadrive).w ; is Megadrive PAL?
+     	beq.s .end ; if not, branch
+     	cmpi.b #$5,(v_palmuscounter).w ; 5th frame?
+     	bne.s .end ; if not, branch
+     	move.b #$0,(v_palmuscounter).w ; reset counter
+     	bra.w UpdateMusic ; run sound driver again
+.end:
+    	addq.b #$1,(v_palmuscounter).w ; add 1 to frame count
 		rts
+	else
+		; The music will not play properly on PAL consoles because it will be a bit slow.
+		rts
+	endif
 ; End of function UpdateMusic
 
 
