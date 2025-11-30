@@ -254,7 +254,11 @@ spec__First:	equ $D0
 sfx_Waterfall:	equ ((ptr_sndD0-SpecSoundIndex)/4)+spec__First
 spec__Last:	equ ((ptr_specend-SpecSoundIndex-4)/4)+spec__First
 
+if MoreSounds
+flg__First:	equ $FF
+else
 flg__First:	equ $E0
+endif
 bgm_Fade:	equ ((ptr_flgE0-Sound_ExIndex)/4)+flg__First
 sfx_Sega:	equ ((ptr_flgE1-Sound_ExIndex)/4)+flg__First
 bgm_Speedup:	equ ((ptr_flgE2-Sound_ExIndex)/4)+flg__First
