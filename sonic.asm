@@ -2345,7 +2345,11 @@ Tit_ClrScroll2:
 ; ---------------------------------------------------------------------------
 
 LevelSelect:
+	if FixBugs
+		move.b	#2,(v_vbla_routine).w
+	else
 		move.b	#4,(v_vbla_routine).w
+	endif
 		bsr.w	WaitForVBla
 		bsr.w	LevSelControls
 		bsr.w	RunPLC
