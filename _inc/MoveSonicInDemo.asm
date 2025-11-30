@@ -109,7 +109,7 @@ DemoEndDataPtr:	dc.l Demo_EndGHZ1	; demos run during the credits
 ; Stray demo data is present here. It involves Sonic slowly running
 ; right, jumping once, then running at full speed for a few seconds.
 ; Interestingly, this lines up with our knowledge of the fabled
-; Tokyo Game Show prototype.
-; See it in action: https://youtu.be/S8_IAfQbUu0
+; Tokyo Toy Show prototype.
+; See it in action: https://youtube.com/watch?v=S8_IAfQbUu0
 Demo_Unused:	binclude	"demodata/Unused Demo.bin"
 		even
