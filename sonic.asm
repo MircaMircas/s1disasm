@@ -26,6 +26,8 @@ FixBugs		  = 0	; change to 1 to enable bugfixes
 
 zeroOffsetOptimization = 0	; if 1, makes a handful of zero-offset instructions smaller
 
+MoreSounds	  = 0	; change to 1 to expand the sound index
+
 	include "MacroSetup.asm"
 	include	"Constants.asm"
 	include	"Variables.asm"
