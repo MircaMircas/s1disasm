@@ -28,6 +28,8 @@ zeroOffsetOptimization = 0	; if 1, makes a handful of zero-offset instructions s
 
 MoreSounds	  = 0	; change to 1 to expand the sound index
 
+CustomSerial  = 0	; change to 1 to use a custom serial number for REV02
+
 	include "MacroSetup.asm"
 	include	"Constants.asm"
 	include	"Variables.asm"
@@ -119,11 +121,13 @@ loc_E0:
 		dc.b "(C)SEGA 1991.APR" ; Copyright holder and release date (generally year)
 		dc.b "SONIC THE               HEDGEHOG                " ; Domestic name
 		dc.b "SONIC THE               HEDGEHOG                " ; International name
-		if Revision=0
-		dc.b "GM 00001009-00"   ; Serial/version number (Rev 0)
-		else
-			dc.b "GM 00004049-01" ; Serial/version number (Rev non-0)
-		endif
+    if Revision=0
+		dc.b "GM 00001009-00"   ; Version (REV00)
+    else
+		dc.b "GM 00001009-01"   ; Version (REV01)
+	if (Revision=2) || CustomSerial
+		dc.b "GM 00001009-02"   ; Version (REV02)
+    	endif
 Checksum:
 		if Revision=0
 		dc.w $264A	; Hardcoded to make it easier to check for ROM correctness
